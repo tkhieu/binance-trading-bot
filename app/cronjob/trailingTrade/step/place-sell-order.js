@@ -105,8 +105,8 @@ const execute = async (logger, rawData) => {
   // When order quantity multiply quantity percentage is more than minimum notional
   const orderQuantityWithPercentage = parseFloat(
     _.floor(
-      freeBalance * quantityPercentage -
-        freeBalance * quantityPercentage * (0.1 / 100),
+      // freeBalance * quantityPercentage - freeBalance * quantityPercentage * (0.1 / 100),
+      freeBalance * quantityPercentage,
       lotPrecision
     )
   );
