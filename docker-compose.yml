@@ -50,7 +50,7 @@ services:
 
   binance-redis:
     container_name: binance-redis
-    image: redis:6.2.4
+    image: redis
     sysctls:
       net.core.somaxconn: 1024
     restart: unless-stopped
@@ -65,7 +65,7 @@ services:
 
   binance-mongo:
     container_name: binance-mongo
-    image: mongo:3.2.20-jessie
+    image: mongo
     restart: unless-stopped
     networks:
       - internal
@@ -74,7 +74,7 @@ services:
 
   binance-mongo-express:
     container_name: binance-mongo-express
-    image: mongo-express:0.54
+    image: mongo-express
     restart: unless-stopped
     networks:
       - internal
@@ -83,8 +83,25 @@ services:
     environment:
       ME_CONFIG_MONGODB_SERVER: binance-mongo
 
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - external
+      - internal
+    environment:
+      - SITE_ADDRESS=${SITE_ADDRESS}
+
 networks:
+  external:
+    external: true
   internal:
+    external: false
     driver: bridge
     # driver_opts:
     #     com.docker.network.driver.mtu: 1442
