@@ -91,13 +91,14 @@ const execute = async (logger, rawData) => {
   logger.info({ freeBalance }, 'Free balance');
 
   let orderQuantity = parseFloat(
-    _.floor(freeBalance - freeBalance * (0.1 / 100), lotPrecision)
+    // _.floor(freeBalance - freeBalance * (0.1 / 100), lotPrecision)
+    _.floor(freeBalance, lotPrecision)
   );
 
   if (orderQuantity <= parseFloat(minQty)) {
     return setMessage(
       logger,
-      data,
+     data,
       `Order quantity is less or equal than the minimum quantity - ${minQty}. ` +
         `Do not place a stop-loss order.`
     );
