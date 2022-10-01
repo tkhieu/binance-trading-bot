@@ -2,11 +2,11 @@ const _ = require('lodash');
 const moment = require('moment');
 const { binance, slack } = require('../../../helpers');
 const {
-  getAccountInfo,
   isExceedAPILimit,
   disableAction,
   getAPILimit,
-  getAndCacheOpenOrdersForSymbol
+  getAndCacheOpenOrdersForSymbol,
+  getAccountInfoFromAPI
 } = require('../../trailingTradeHelper/common');
 const {
   saveSymbolGridTrade
@@ -202,7 +202,7 @@ const execute = async (logger, rawData) => {
   );
 
   // Refresh account info
-  data.accountInfo = await getAccountInfo(logger);
+  data.accountInfo = await getAccountInfoFromAPI(logger);
 
   slack.sendMessage(
     `*${symbol}* Sell Stop-Loss Action Result: *MARKET*\n` +
